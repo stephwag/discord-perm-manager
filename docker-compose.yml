@@ -1,0 +1,20 @@
+version: '3.3'
+services:
+  perms:
+    restart: unless-stopped
+    env_file: secrets.env
+    build: .
+    ports:
+     - "8081:443"
+  permsdb:
+    restart: unless-stopped
+    ports:
+      - "37017:27017"
+    image: "mongo:latest"
+    volumes:
+      - perms:/data/db
+volumes:
+  testdb:
+    driver: local-persist
+    driver_opts:
+      mountpoint: /mnt/volume/perms
